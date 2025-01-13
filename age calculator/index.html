@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <p>
+                JavaScript <br />
+                <span>Age Calculator</span>
+            </p>
+            <div class="box">
+                <input type="date" id="date" />
+                <button class="btn" id="calculateBtn">Calculate</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+    <script>
+        const userInput = document.querySelector("#date");
+        userInput.max = new Date().toISOString().split("T")[0];
+
+        document.querySelector("#calculateBtn").addEventListener("click", calculateAge);
+
+        function calculateAge() {
+            const birthDate = new Date(userInput.value);
+            const today = new Date();
+
+            let years = today.getFullYear() - birthDate.getFullYear();
+            let months = today.getMonth() - birthDate.getMonth();
+            let days = today.getDate() - birthDate.getDate();
+
+            if (days < 0) {
+                months--;
+                days += getDaysInMonth(today.getFullYear(), today.getMonth());
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const result = `You are ${years} years, ${months} months, and ${days} days old.`;
+            document.querySelector("#result").innerText = result;
+        }
+
+        function getDaysInMonth(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+    </script>
+</body>
+</html>
